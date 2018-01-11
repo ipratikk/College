@@ -169,7 +169,6 @@ for(;;)
 			input();
 			bsort(p,n);
 			printf("The second largest number is %d\n",p[n-2]);
-			display();
 			break;
 
 			case 4:
