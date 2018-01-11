@@ -2,6 +2,7 @@
 #include<stdlib.h>
 int *p;
 int n;
+int *p2;
 void input()
 {
 	int i;
@@ -15,24 +16,19 @@ void input()
 
 void input2()
 {
-        int i;
-        printf("How many numbers do you want to enter in the array?\n");
-        scanf("%d",&n);
-        p=(int *)malloc((n+1)*sizeof(int));
-        printf("Enter the %d numbers\n",n);
-        for(i=0;i<n;i++)
-        scanf("%d",p+i);
-	p[n]=-4;
-	n=n+1;
+        p2=(int *)realloc(p,(n)*sizeof(int));
+        p2[n-1]=-4;
+	p=(int *)realloc(p2,n*sizeof(int));
 }
 
 void display()
 {
 	int i;
+	printf("\n\n\n\n");
 	printf("The array after the desired operation is -->\n");
 	for(i=0;i<n;i++)
 		printf("%d ",p[i]);
-	printf("\n");
+	printf("\n\n\n\n");
 }
 
 int lsearch(int *p,int n,int x,int y)
@@ -109,6 +105,7 @@ void lshift(int *p,int n,int x)
 int main()
 {
 	int i,j,y=-1,x=0,n1,n2,*p1,*p2,ch,check=0;
+	input();
 for(;;)
 {
 	printf("Enter the choice\n");
@@ -133,25 +130,21 @@ for(;;)
 	{
 		switch(ch)
 		{
+			y=-1;
 			case 1:
-			input();
 			printf("Enter the number to be searched\n");
 			scanf("%d",&x);
 			y=-1;
-			for(;;)
-			{
-				y=lsearch(p,n,x,y);
+			y=lsearch(p,n,x,y);
 				if(y==-1)
 					printf("Number not found\n");
 				else if(y==-2)
 					break;
 				else
 					printf("Number found at index %d\n",y);
-			}
 			break;
 		
 			case 2:
-			input();
 			printf("Enter the number to be searched\n");
 			scanf("%d",&x);
 			{
@@ -166,28 +159,30 @@ for(;;)
 			break;
 		
 			case 3:
-			input();
 			bsort(p,n);
 			printf("The second largest number is %d\n",p[n-2]);
 			break;
 
 			case 4:
+			n=n+1;
 			input2();
-			printf("Enter the position starting from 0 where you want to enter the number\n");
+			printf("Enter the position starting from 1 where you want to enter the number\n");
 			scanf("%d",&x);
-			ushift(p,n,x);
+			ushift(p,n,x-1);
 			printf("Enter the number\n");
-			scanf("%d",&p[x]);
+			scanf("%d",&p[x-1]);
 			display();
 			break;
 
 			case 5:
+			n=n+1;
 			input2();
 			n=n-1;
 			bsort(p,n);
 			n=n+1;
 			printf("Enter the number to add to the array\n");
 			scanf("%d",&x);
+			display();
 			for(i=0;i<n-1;i++)
 			{
 				if(x<=p[0])
@@ -212,7 +207,6 @@ for(;;)
 			break;
 			
 			case 6:
-			input();
 			printf("Enter the element to delete\n");
 			scanf("%d",&x);
 			for(;;)
@@ -230,7 +224,6 @@ for(;;)
 			break;
 
 			case 7:
-			input();
 			for(i=0;i<n;i++)
 			{
 				for(j=i+1;j<=n;j++)
@@ -298,7 +291,6 @@ for(;;)
                         break;
 
 			case 9:
-			input();
 			if(n%2!=0)
 			printf("Cannot perform operation for odd number of data\n");
 			else
@@ -310,7 +302,6 @@ for(;;)
 			break;
 
 			case 10:
-			input();
 			bsort(p,n);
 			display();
 			break;
