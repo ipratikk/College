@@ -94,7 +94,17 @@ int scmp(char *s1,char *s2)
     else
         return -1;
 }
-
+void smallarg(char *p)
+{
+	int i,char *sml,*lrg,tmp;
+	for(i=0;i<slen(p);i++)
+	{
+		if(p[i]==' ')
+		{
+			if(slen(tmp)<=slen(sml))
+			{
+				sml=tmp;
+				tmp="";
 void main()
 {
 	
