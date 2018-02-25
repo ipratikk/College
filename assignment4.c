@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 int n;
 typedef struct Student
 {
@@ -35,16 +36,22 @@ void differenceBetweenTimePeriod(struct TIME start, struct TIME stop, struct TIM
     diff->minutes = start.minutes - stop.minutes;
     diff->hours = start.hours - stop.hours;
 }
-a x[n];
+typedef enum weekdays {sunday=1,monday,tuesday,wednesday,thursday,friday,saturday} w;
+typedef union student
+{
+    char name[50];
+    int roll;
+    float marks;
+} u;
 void display(a p)
 {
-    printf("%s\t",p->name);
-    printf("%d\t",p->roll);
-    printf("%d\t",p->marks);
+    printf("%s\t",p.name);
+    printf("%d\t",p.roll);
+    printf("%d\t",p.marks);
 }
 void display2(a p)
 {
-	printf("%d.%d.%d\n",p->b.d,p->b.m,p->b.y);
+    printf("%d.%d.%d\n",p.b.d,p.b.m,p.b.y);
 }
 void input(a *p,int i)
 {
@@ -64,18 +71,25 @@ void input2(a *p,int i)
 void main()
 {
     int i,ch;
+    a x[n],*z;
+    d dist1,dist2,sum;
+    t strt,stpt,diff;
+    w day;
+    u s;
+    char p[10];
     for(;;)
     {
-        printf("1. Store information (name, roll, marks) of a student.");
-        printf("2. Add two distances (in inch-feet)");
-        printf("3. Calculate the difference between two time periods");
-        printf("4. Store information (name, roll, marks) of 10 students using structure");
-        printf("5. Store information using structures for n elements dynamically");
-        printf("6. Access array members using structure.");
-        printf("7. Access structure members using structure pointers");
-        printf("8. Store roll and name of a student. Store DOB of that student in another nested structure and print it");
-        printf("9. Store information (name, roll, marks) of a student using union and display");
-        printf("10.Identify weekdays using enum constant");
+    	printf("0. Exit\n");
+        printf("1. Store information (name, roll, marks) of a student.\n");
+        printf("2. Add two distances (in inch-feet)\n");
+        printf("3. Calculate the difference between two time periods\n");
+        printf("4. Store information (name, roll, marks) of 10 students using structure\n");
+        printf("5. Store information using structures for n elements dynamically\n");
+        printf("6. Access array members using structure.\n");
+        printf("7. Access structure members using structure pointers\n");
+        printf("8. Store roll and name of a student. Store DOB of that student in another nested structure and print it\n");
+        printf("9. Store information (name, roll, marks) of a student using union and display\n");
+        printf("10.Identify weekdays using enum constant\n");
         scanf("%d",&ch);
         if(ch==0)
             break;
@@ -84,13 +98,12 @@ void main()
             switch(ch)
             {
             case 1:
-            	n=1;
+                n=1;
                 input(&x[0],1);
                 input2(&x[0],i+1);
                 printf("Stored Successfully !");
                 break;
             case 2:
-                d dist1,dist2,sum;
                 printf("Enter information for 1st distance\n");
                 printf("Enter feet\n");
                 scanf("%d", &dist1.feet);
@@ -103,7 +116,7 @@ void main()
                 scanf("%f", &dist2.inch);
                 sum.feet = dist1.feet+dist2.feet;
                 sum.inch = dist1.inch+dist2.inch;
-                if (sum>12.0)
+                if (sum.inch>12.0)
                 {
                     sum.inch = sum.inch-12.0;
                     ++sum.feet;
@@ -111,7 +124,6 @@ void main()
                 printf("Sum of distances = %d\'-%.1f\"",sum.feet, sum.inch);
                 break;
             case 3:
-                t strt,stpt,diff;
                 printf("Enter start time: \n");
                 printf("Enter hours, minutes and seconds respectively: ");
                 scanf("%d %d %d", &strt.hours, &strt.minutes, &strt.seconds);
@@ -122,25 +134,62 @@ void main()
                 printf("\nTIME DIFFERENCE: %d:%d:%d\n", diff.hours, diff.minutes, diff.seconds);
                 break;
             case 4:
-            	n=10;
-                for(i=0;i<n;i++)
-                	intput(&x[i],(i+1));
-                	printf("Stored Successfully !\n");
+                n=10;
+                for(i=0; i<n; i++)
+                    input(&x[i],(i+1));
+                printf("Stored Successfully !\n");
                 break;
-            case 5:	
-            	printf("How many students's data do you want to store?\n");
-            	scanf("%d",&n);
-            	for(i=0;i<n;i++)
-            		input(&x[i],(i+1));
-            	printf("Stored Successfully !\n");
-            	break;
-          	case 6:
-          		printf("Name\tRoll\tMarks\n");
+            case 5:
+                printf("How many students's data do you want to store?\n");
+                scanf("%d",&n);
+                z=(a *)malloc(n*sizeof(a));
+                for(i=0; i<n; i++)
+                    input(&z[i],(i+1));
+                printf("Stored Successfully !\n");
+                break;
+            case 6:
+                printf("Name\tRoll\tMarks\n");
                 for(i=0; i<n; i++)
                 {
                     display(x[i]);
                     printf("\n");
-            	}
-            	break;
+                }
+                break;
             case 7:
-            	
+                display(x[0]);
+                break;
+            case 8:
+                printf("How many students's data do you want to store?\n");
+                scanf("%d",&n);
+                for(i=0; i<n; i++)
+                {
+                    input(&x[i],(i+1));
+                    input2(&x[i],(i+1));
+                }
+                printf("Stored Successfully !\n");
+                break;
+            case 9:
+                printf("Enter information:\n");
+                printf("Enter name: ");
+                scanf("%s", s.name);
+                printf("Enter roll number: ");
+                scanf("%d",&s.roll);
+                printf("Enter marks: ");
+                scanf("%f", &s.marks);
+                printf("Name: ");
+                puts(s.name);
+                printf("Roll number: %d\n",s.roll);
+                printf("Marks: %.1f\n", s.marks);
+                break;
+            case 10:
+                printf("Enter the weekday in lowercase\n");
+                scanf("%s",p);
+                printf("%d",day);
+                break;
+            default:
+            	printf("Invalid Choice. Try again !\n");
+            	break;
+            }
+        }
+    }
+}
