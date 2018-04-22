@@ -1,9 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-int i,j,ch,fg,ec2,fc=0;
+int i,j,ch,fc=0;
 char filename[50],e,c,s[100000],flist[1000][50];
-FILE *fp1,*fp2,*fp;
+FILE *fp1,*fp;
 void Create();
 void Append();
 void Delete();
@@ -14,10 +14,11 @@ void list();
 void rmv(char *s);
 int main()
 {
- do {
-  printf("\n\n\tMENU:\n\t-----\n ");
-  printf("\n\t1.CREATE\t2.OPEN\t3.UPDATE\t4.DELETE\t5.RENAME\t6.DETAILS\t7.List Files\n8.EXIT\n");
-  printf("\n\tEnter your choice: ");
+ do 
+ {
+  printf("MENU:\n-----\n");
+  printf("1.CREATE\n2.OPEN\n3.UPDATE\n4.DELETE\n5.RENAME\n6.DETAILS\n7.List Files created in this run\n8.EXIT\n");
+  printf("Enter your choice: ");
   scanf("%d",&ch);
   switch(ch)
   {
@@ -42,7 +43,7 @@ int main()
     case 7:
     	list();
     	break;
-   case 8:
+    case 8:
      exit(0);
     default: printf("Wrong Choice\n");
   } system("clear");
@@ -75,7 +76,7 @@ void Create()
 	   	    printf("Press 1 to create another file or 0 to exit\n");
 	   }
 	   else
-		   	printf("Filename already exists, try again with a different name or press 0 to exit\n");
+		   	printf("Filename already exists, press 1 to try again with a different name or press 0 to exit\n");
 		scanf("%d",&ch);
    }
    printf("%d file(s) created\n",count);
@@ -120,6 +121,7 @@ void list()
 		if(strcmp(flist[i],"0")!=0)
 		printf("%s\t",flist[i]);
 	}
+	printf("\n");
 }
 void Append()
 {
@@ -131,11 +133,25 @@ void Append()
 	else
 	{
 		fclose(fp);
-		fp=fopen(filename,"a");
-		printf("Type the text to append.\n");
-		scanf("%[^\t]s",s);
-		for(i=0;s[i]!='\0';i++)
-			fputc(s[i], fp);
+		printf("1.Rewrite the file\n");
+		printf("2.Append data to the file\n");
+		scanf("%d",&ch);
+		switch(ch)
+		{
+			case 1:
+			fp=fopen(filename,"w");
+			printf("Type the text to write ending with a tab\n");
+			break;
+			case 2:
+			fp=fopen(filename,"a+");
+			printf("Type the text to append ending with a tab\n");
+			break;
+			default:
+			printf("Wrong choice, try again\n");
+			break;
+		}
+		while((ch=getchar())!='\t')
+		fputc(ch,fp);
 		fclose(fp);
 	}	
 }
@@ -155,7 +171,7 @@ void Rename()
 }
 void Details()
 {
-	printf("\n\tEnter the file name: ");
+	printf("Enter the file name: ");
 	scanf("%s",filename);
 	fp1=fopen(filename,"r");
 	if(fp1==NULL) 
@@ -172,7 +188,7 @@ void Details()
       	 i=i+1;
   		 }
 		}
-		printf("\n\tThe length of the file is: \n");
-		printf("%d",i); 
+		printf("The length of the file is: \n");
+		printf("%d\n",i); 
 	}
 }
